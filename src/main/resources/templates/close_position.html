@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pozíció Zárás</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body class="is-preload">
+<header id="header"><a href="/" class="logo">Beadando</a></header>
+<section id="wrapper">
+    <header><div class="inner"><h2>Pozíció Zárás</h2></div></header>
+    <div class="wrapper"><div class="inner">
+
+        <p>Add meg a bezárni kívánt Trade ID-t (a listából kinézheted).</p>
+        <form method="post" action="/close_position">
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label>Trade ID:</label>
+                    <input type="text" name="tradeId" required placeholder="pl. 123" />
+                </div>
+                <div class="col-12">
+                    <ul class="actions">
+                        <li><input type="submit" value="Zárás" class="primary" /></li>
+                        <li><a href="/positions" class="button">Vissza a listához</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+
+        <div th:if="${message != null}" style="color: green; font-weight: bold;">
+            <h3 th:text="${message}"></h3>
+        </div>
+        <div th:if="${error != null}" style="color: red;"><h3 th:text="${error}"></h3></div>
+
+    </div></div>
+</section>
+<script src="/assets/js/jquery.min.js"></script><script src="/assets/js/browser.min.js"></script><script src="/assets/js/breakpoints.min.js"></script><script src="/assets/js/util.js"></script><script src="/assets/js/main.js"></script>
+</body>
+</html>

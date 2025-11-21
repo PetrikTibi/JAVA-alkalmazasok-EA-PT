@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nyitott Pozíciók</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body class="is-preload">
+<header id="header"><a href="/" class="logo">Beadando</a></header>
+<section id="wrapper">
+    <header><div class="inner"><h2>Nyitott Pozíciók</h2></div></header>
+    <div class="wrapper"><div class="inner">
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Trade ID</th>
+                    <th>Instrumentum</th>
+                    <th>Nyitás ideje</th>
+                    <th>Mennyiség</th>
+                    <th>Nyitó Ár</th>
+                    <th>Profit/Veszteség</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="trade : ${trades}">
+                    <td th:text="${trade.id}"></td>
+                    <td th:text="${trade.instrument}"></td>
+                    <td th:text="${trade.openTime}"></td>
+                    <td th:text="${trade.currentUnits}"></td>
+                    <td th:text="${trade.price}"></td>
+                    <td th:text="${trade.unrealizedPL}"
+                        th:style="${trade.unrealizedPL.doubleValue() >= 0} ? 'color:green' : 'color:red'"></td>
+                </tr>
+                <tr th:if="${trades == null or trades.empty}">
+                    <td colspan="6">Nincs nyitott pozíció.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="actions">
+            <li><a href="/open_position" class="button primary">Új nyitása</a></li>
+            <li><a href="/close_position" class="button">Zárás ID alapján</a></li>
+            <li><a href="/" class="button">Vissza</a></li>
+        </ul>
+        <div th:if="${error != null}" style="color: red;"><h3 th:text="${error}"></h3></div>
+
+    </div></div>
+</section>
+<script src="/assets/js/jquery.min.js"></script><script src="/assets/js/browser.min.js"></script><script src="/assets/js/breakpoints.min.js"></script><script src="/assets/js/util.js"></script><script src="/assets/js/main.js"></script>
+</body>
+</html>
