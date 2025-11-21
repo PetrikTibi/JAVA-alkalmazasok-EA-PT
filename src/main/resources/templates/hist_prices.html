@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historikus Árak</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body class="is-preload">
+<header id="header"><a href="/" class="logo">Beadando</a></header>
+<section id="wrapper">
+    <header>
+        <div class="inner">
+            <h2>Forex - Historikus Árak</h2>
+        </div>
+    </header>
+    <div class="wrapper">
+        <div class="inner">
+            <form method="post" action="/hist_prices">
+                <div class="row gtr-uniform">
+                    <div class="col-6 col-12-xsmall">
+                        <label>Devizapár:</label>
+                        <select name="instrument">
+                            <option value="EUR_USD">EUR / USD</option>
+                            <option value="USD_JPY">USD / JPY</option>
+                            <option value="GBP_USD">GBP / USD</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <label>Idősík (Granularity):</label>
+                        <select name="granularity">
+                            <option value="M1">1 Perc (M1)</option>
+                            <option value="H1">1 Óra (H1)</option>
+                            <option value="D">Napos (D)</option>
+                            <option value="W">Hetes (W)</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <ul class="actions">
+                            <li><input type="submit" value="Lekérdezés" class="primary" /></li>
+                            <li><a href="/" class="button">Vissza</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <div th:if="${candles != null}">
+                <h3>Utolsó 10 adatai:</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Időpont</th>
+                            <th>Nyitó</th>
+                            <th>Magas</th>
+                            <th>Alacsony</th>
+                            <th>Záró</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="candle : ${candles}">
+                            <td th:text="${candle.time}"></td>
+                            <td th:text="${candle.mid.o}"></td>
+                            <td th:text="${candle.mid.h}"></td>
+                            <td th:text="${candle.mid.l}"></td>
+                            <td th:text="${candle.mid.c}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div th:if="${error != null}" style="color: red;">
+                <h3 th:text="${error}"></h3>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/browser.min.js"></script>
+<script src="/assets/js/breakpoints.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
