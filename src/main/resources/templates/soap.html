@@ -5,6 +5,20 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/assets/css/main.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        input[type="date"], select {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            font-weight: bold;
+        }
+
+        option {
+            color: #000000;
+            background-color: #ffffff;
+        }
+    </style>
+
 </head>
 <body class="is-preload">
 
@@ -60,13 +74,12 @@
                 <script th:inline="javascript">
                     const ctx = document.getElementById('myChart');
 
-                    // Adatok átvétele a Javából
                     const labels = [[${chartDates}]];
                     const dataPoints = [[${chartRates}]];
                     const currencyLabel = [[${currency}]];
 
                     new Chart(ctx, {
-                        type: 'line', // Vonaldiagram
+                        type: 'line',
                         data: {
                             labels: labels,
                             datasets: [{
@@ -75,12 +88,25 @@
                                 borderWidth: 2,
                                 borderColor: 'rgb(75, 192, 192)',
                                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                fill: true
+                                fill: true,
+                                pointRadius: 3
                             }]
                         },
                         options: {
+                            responsive: true,
                             scales: {
-                                y: { beginAtZero: false }
+                                y: {
+                                    beginAtZero: false,
+                                    ticks: { color: 'black' }
+                                },
+                                x: {
+                                    ticks: { color: 'black' }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    labels: { color: 'black' }
+                                }
                             }
                         }
                     });

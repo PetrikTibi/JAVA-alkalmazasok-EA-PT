@@ -82,7 +82,7 @@ public class ForexController {
         return "hist_prices";
     }
 
-    // --- 4. POZÍCIÓ NYITÁS ---
+    // --- 4. POZÍCIÓ NYITÁS  ---
     @GetMapping("/open_position")
     public String showOpenPositionForm() { return "open_position"; }
 
@@ -93,21 +93,27 @@ public class ForexController {
             OrderCreateRequest request = new OrderCreateRequest(Config.ACCOUNTID);
             MarketOrderRequest marketOrder = new MarketOrderRequest();
             marketOrder.setInstrument(new InstrumentName(instrument));
-            marketOrder.setUnits(units); // Pozitív = Vétel, Negatív = Eladás
+            marketOrder.setUnits(units);
             request.setOrder(marketOrder);
 
-            // lekérés
+
             OrderCreateResponse response = getContext().order.create(request);
 
-            // eredmény a kérésre
-            String tradeId = response.getOrderFillTransaction().getId().toString();
-            model.addAttribute("message", "Sikeres nyitás! Trade ID: " + tradeId);
-            model.addAttribute("openedInstrument", instrument);
-            model.addAttribute("openedUnits", units);
+            if (response.getOrderFillTransaction() != null) {
+                String tradeId = response.getOrderFillTransaction().getId().toString();
+                model.addAttribute("message", "Sikeres nyitás! Trade ID: " + tradeId);
+                model.addAttribute("openedInstrument", instrument);
+                model.addAttribute("openedUnits", units);
+            } else if (response.getOrderCancelTransaction() != null) {
+                String ok = response.getOrderCancelTransaction().getReason().toString();
+                throw new RuntimeException("A megbízást visszautasították. Ok: " + ok);
+            } else {
+                throw new RuntimeException("Ismeretlen válasz a szervertől.");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", "Hiba a nyitásnál: " + e.getMessage());
+            model.addAttribute("error", "Hiba: " + e.getMessage());
         }
         return "open_position";
     }

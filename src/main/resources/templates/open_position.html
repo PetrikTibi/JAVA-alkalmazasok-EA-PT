@@ -4,6 +4,28 @@
     <title>Pozíció Nyitás</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/assets/css/main.css" />
+
+    <style>
+        input:not([type="submit"]), select, option {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            font-weight: bold;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            color: #ffffff !important;
+            background-color: #212931 !important;
+            border: 2px solid #ffffff !important;
+            cursor: pointer;
+        }
+
+
+        input[type="submit"]:hover {
+            background-color: #ffffff !important;
+            color: #212931 !important;
+        }
+    </style>
 </head>
 <body class="is-preload">
 <header id="header"><a href="/" class="logo">Beadando</a></header>
@@ -35,12 +57,12 @@
             </div>
         </form>
 
-        <div th:if="${message != null}" style="color: green; font-weight: bold;">
-            <h3 th:text="${message}"></h3>
+        <div th:if="${message != null}" style="color: #4CAF50; font-weight: bold; background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px;">
+            <h3 th:text="${message}" style="color: #4CAF50;"></h3>
             <p>Instrumentum: <span th:text="${openedInstrument}"></span>, Mennyiség: <span th:text="${openedUnits}"></span></p>
             <a href="/positions" class="button small">Megtekintés a listában</a>
         </div>
-        <div th:if="${error != null}" style="color: red;"><h3 th:text="${error}"></h3></div>
+        <div th:if="${error != null}" style="color: #ff4444;"><h3 th:text="${error}" style="color: #ff4444;"></h3></div>
 
     </div></div>
 </section>
