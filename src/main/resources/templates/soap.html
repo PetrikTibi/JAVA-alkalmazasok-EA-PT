@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MNB Árfolyamok</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="is-preload">
+
+<header id="header">
+    <a href="/" class="logo">Beadando</a>
+</header>
+
+<section id="wrapper">
+    <header>
+        <div class="inner">
+            <h2>MNB Árfolyam Lekérdezés (SOAP)</h2>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="inner">
+            <form method="post" action="/soap">
+                <div class="row gtr-uniform">
+                    <div class="col-6 col-12-xsmall">
+                        <label>Kezdő dátum:</label>
+                        <input type="date" name="startDate" required value="2023-01-01" />
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <label>Vége dátum:</label>
+                        <input type="date" name="endDate" required value="2023-03-01" />
+                    </div>
+                    <div class="col-12">
+                        <label>Deviza:</label>
+                        <select name="currency">
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <ul class="actions">
+                            <li><input type="submit" value="Lekérdezés és Grafikon" class="primary" /></li>
+                            <li><a href="/" class="button">Vissza</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <hr />
+
+            <div th:if="${chartDates != null}">
+                <h3 th:text="'Grafikon: ' + ${currency}"></h3>
+
+                <div style="background-color: white; padding: 20px; border-radius: 10px;">
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <script th:inline="javascript">
+                    const ctx = document.getElementById('myChart');
+
+                    // Adatok átvétele a Javából
+                    const labels = [[${chartDates}]];
+                    const dataPoints = [[${chartRates}]];
+                    const currencyLabel = [[${currency}]];
+
+                    new Chart(ctx, {
+                        type: 'line', // Vonaldiagram
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: currencyLabel + ' árfolyam (HUF)',
+                                data: dataPoints,
+                                borderWidth: 2,
+                                borderColor: 'rgb(75, 192, 192)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: { beginAtZero: false }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/browser.min.js"></script>
+<script src="/assets/js/breakpoints.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>
