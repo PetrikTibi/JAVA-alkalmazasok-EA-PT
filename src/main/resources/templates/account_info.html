@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Számla Információk</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+<header id="header">
+    <a href="/" class="logo">Beadando</a>
+</header>
+
+<section id="wrapper">
+    <header>
+        <div class="inner">
+            <h2>OANDA Számla Információk</h2>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="inner">
+
+            <div th:if="${error != null}" style="color: red;">
+                <h3 th:text="${error}"></h3>
+            </div>
+
+            <div th:if="${summary != null}">
+                <div class="table-wrapper">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Számla ID:</td>
+                            <td th:text="${summary.id}"></td>
+                        </tr>
+                        <tr>
+                            <td>Név/Alias:</td>
+                            <td th:text="${summary.alias}"></td>
+                        </tr>
+                        <tr>
+                            <td>Egyenleg (Balance):</td>
+                            <td th:text="${summary.balance}"></td>
+                        </tr>
+                        <tr>
+                            <td>Deviza:</td>
+                            <td th:text="${summary.currency}"></td>
+                        </tr>
+                        <tr>
+                            <td>Nyitott pozíciók száma:</td>
+                            <td th:text="${summary.openPositionCount}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <ul class="actions">
+                <li><a href="/" class="button">Vissza a Főoldalra</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/browser.min.js"></script>
+<script src="/assets/js/breakpoints.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>
